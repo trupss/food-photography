@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { Subscription } from "rxjs";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 import { Post } from "../post.model";
@@ -28,6 +29,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   userId: string;
   comment:any;
+  userName:any;
+  decodedToken:any;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
 
@@ -37,6 +40,13 @@ export class PostListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    const helper = new JwtHelperService();
+    let token = localStorage.getItem("token");
+   if(token!=null && token !='' && token !=undefined){
+    this.decodedToken = helper.decodeToken(token);
+    let nameMatch = this.decodedToken.email.match(/^([^@]*)@/);
+    this.userName = nameMatch ? nameMatch[1] : null;
+      }
     this.isLoading = true;
     this.postsService.getPosts(this.postsPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
@@ -76,6 +86,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   if(this.comment!==null && this.comment){
     this.postsService.addcomments(postId,this.comment,1).subscribe(() => {
       this.postsService.getPosts(this.postsPerPage, this.currentPage);
+      this.comment='';
     }, () => {
       this.isLoading = false;
     });

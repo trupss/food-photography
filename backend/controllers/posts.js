@@ -67,21 +67,23 @@ exports.updatePost = (req, res, next) => {
 
 
 exports.addComment = (req, res, next) => {
-    let date_ob = new Date();
-    let date = date_ob.getDate();
-    console.log("my request");
+
+    let today = new Date();
+    let date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+    let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    let dateTime = time + ' ' + date;
     let nameMatch = req.userData.email.match(/^([^@]*)@/);
     let name = nameMatch ? nameMatch[1] : null;
     const post = new Post({
         _id: req.body.id,
         comments: [{
             message: req.body.comment,
-            date: date,
+            date: dateTime,
             commentBy: name
         }],
         likes: req.body.like
     });
-    console.log(post.comments);
+    console.log("this is request", post);
     Post.updateOne({ _id: req.params.id }, { "$push": { "comments": post.comments } })
         .then(result => {
             if (result.n > 0) {

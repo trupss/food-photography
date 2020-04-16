@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
     content: { type: String, required: true },
     imagePath: { type: String, required: true },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    comments: [{ message: String, date: Date, commentBy: String }],
+    comments: [{ message: String, date: String, commentBy: String }],
     likes: { type: Number }
 });
 
