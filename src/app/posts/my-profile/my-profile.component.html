@@ -1,8 +1,22 @@
 <div class="container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <section class="my-col" *ngIf="posts.length > 0 && !isLoading">
+    <section class="my-col">
         <div class="row">
-            <div class="col-sm-8 p-2 my-3 border">
+            <div class="col-sm-2 p-2 my-3 ml-3 mr-3 border">
+                <div class="">
+                    <img src="../../../assets/img_avatar1.png" class="img-thumbnail mx-auto d-block img-fluid" alt="" />
+                </div>
+                <div>
+                    <hr>
+                    <h3>{{fullName}}</h3>
+                    <p> Your Posts : <span>{{posts.length}}</span></p>
+                    <div class="text-center">
+                        <a href="editpost.html" class="btn btn-primary">Add New Post</a>
+                    </div>
+                </div>
+            </div>
+            <p class="info-text mat-body-1 text-center" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>
+            <div class="col-sm-8 p-2 my-3 border" *ngIf="posts.length > 0 && !isLoading">
                 <div class="row">
                     <div class="col-sm-5 p-3 my-3 ml-auto mr-3 border" *ngFor="let post of posts">
                         <div class="card">
@@ -33,13 +47,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
     <section class="my-col">
 
     </section>
 
+    <mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)" *ngIf="posts.length > 0"></mat-paginator>
+
+
 </div>
-<mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)" *ngIf="posts.length > 0"></mat-paginator>
-<p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>

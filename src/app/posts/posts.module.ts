@@ -10,9 +10,10 @@ import { PostCreateComponent } from "./post-create/post-create.component";
 import { PostListComponent } from "./post-list/post-list.component";
 import { AngularMaterialModule } from "../angular-material.module";
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 @NgModule({
-  declarations: [PostCreateComponent, PostListComponent],
+  declarations: [PostCreateComponent, PostListComponent, MyProfileComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

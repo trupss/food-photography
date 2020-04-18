@@ -3,13 +3,31 @@
     <section class="my-col" *ngIf="!isLoading">
         <h2 class="text-center p-3">Sign Up</h2>
         <div class="row">
-            <div class="col-sm-4 p-4 my-3 ml-auto mr-auto border">
+            <div class="col-sm-6 p-4 my-3 ml-auto mr-auto border">
                 <form [formGroup]="form" (submit)="onSignup()" *ngIf="!isLoading" autocomplete="rutjfkde">
-                    <mat-form-field>
-                        <mat-label>Email</mat-label>
-                        <input matInput type="text" formControlName="email" placeholder="E-Mail" autocomplete="rutjfkde">
-                        <mat-error *ngIf="form.get('email').invalid">Please enter a valid email.</mat-error>
-                    </mat-form-field>
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input matInput type="text" formControlName="email" placeholder="E-Mail" autocomplete="rutjfkde">
+                            <mat-error *ngIf="form.get('email').invalid">Please enter a valid email.</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>User Id</mat-label>
+                            <input matInput type="text" formControlName="userName" placeholder="User Name" autocomplete="rutjfkde">
+                            <mat-error *ngIf="form.get('userName').invalid">Please use 8 characters(one uppercase, digit, spl character) </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>Full Name</mat-label>
+                            <input matInput type="text" formControlName="fullName" placeholder="User Id" autocomplete="rutjfkde">
+                            <mat-error *ngIf="form.get('fullName').invalid">Please Enter full Name</mat-error>
+                        </mat-form-field>
+                    </div>
 
                     <mat-slide-toggle formControlName="enableDetails" color="primary">Show Password Details</mat-slide-toggle>
                     <mat-form-field class="mat-password-field">
@@ -19,11 +37,15 @@
                         <mat-error *ngIf="form.get('password').invalid">Please enter a valid password.</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field class="mat-password-field">
+                        <mat-label>Confirm Password</mat-label>
+                        <mat-pass-toggle-visibility #toggle matSuffix></mat-pass-toggle-visibility>
+                        <input matInput [type]="toggle.type" formControlName="confirmPassword" placeholder="Confirm Password" autocomplete="off">
+                        <mat-error *ngIf="form.get('confirmPassword').invalid">Paswords must match</mat-error>
+                    </mat-form-field>
+
                     <mat-password-strength #passwordComponent [password]="form.value.password" class="mar-top-20 mar-bt-20">
                     </mat-password-strength>
-                    <div class="captchaStyle">
-                        <re-captcha (resolved)="resolved($event)" siteKey="6LcQGOUUAAAAAKKYlmquk7vIPBJQcvtwOf0t5gtt"></re-captcha>
-                    </div>
                     <div class="text-center  mar-top-20">
                         <button type="submit" *ngIf="!isLoading" class="btn btn-primary text-center">Signup</button>
                     </div>

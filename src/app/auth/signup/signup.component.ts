@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators ,FormBuilder } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { MustMatch } from '../_helpers/must-match.validator';
 
 
 import { AuthService } from "../auth.service";
@@ -13,10 +14,11 @@ export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
   form: FormGroup;
   pwdPattern ='(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[$@$!#^~%*?&,.<>"\'\\;:\{\\\}\\\[\\\]\\\|\\\+\\\-\\\=\\\_\\\)\\\(\\\)\\\`\\\/\\\\\\]])[A-Za-z0-9\d$@].{8,}';
+  userPattern ='(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[$@$!#^~%*?&,.<>"\'\\;:\{\\\}\\\[\\\]\\\|\\\+\\\-\\\=\\\_\\\)\\\(\\\)\\\`\\\/\\\\\\]])[A-Za-z0-9\d$@].{7,}';
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   private authStatusSub: Subscription;
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService,private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -25,28 +27,35 @@ export class SignupComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.form = new FormGroup({
-      email: new FormControl('', { validators: [Validators.required, Validators.pattern(this.emailPattern)]}),
-      password: new FormControl('', { validators: [Validators.required, Validators.pattern(this.pwdPattern)]}),
+    this.form = this.formBuilder.group({
+      email:['',[Validators.required, Validators.pattern(this.emailPattern)]],
+      password:['',[Validators.required, Validators.pattern(this.pwdPattern)]],
+      userName:['',[Validators.required, Validators.pattern(this.userPattern)]],
+      fullName:['',[Validators.required]],
+      confirmPassword: ['',[Validators.required]],
       enableDetails: new FormControl(false),
-      captcha: new FormControl('', { validators: [Validators.required]}),
-    });
+    },{
+      validator: MustMatch('password', 'confirmPassword')
+  });
+
+
 
   }
 
-  resolved(captchaResponse: string) {
-    this.form.patchValue({
-      captcha:captchaResponse
-    })
-    console.log("captchaResponse is",captchaResponse);
-}
+  saverange(){
+    console.log(this.form.value.confirmPassword)
+  }
+
+
+ 
 
   onSignup() {
     if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
-    this.authService.createUser(this.form.value.email, this.form.value.password, this.form.value.captcha);
+    this.authService.createUser(this.form.value.email, this.form.value.password,
+       this.form.value.userName, this.form.value.fullName);
   }
 
   ngOnDestroy() {

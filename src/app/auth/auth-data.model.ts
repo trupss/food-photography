@@ -1,5 +1,7 @@
 export interface AuthData {
-  email: string;
+  userName:string;
   password: string;
   captcha:string;
+  email: string;
+  fullName:string;
 }

@@ -9,24 +9,26 @@ import { PostsService } from "../posts.service";
 import { AuthService } from "../../auth/auth.service";
 import { MatCarousel, MatCarouselComponent } from '@ngmodule/material-carousel';
 
+
 @Component({
-  selector: "app-post-list",
-  templateUrl: "./post-list.component.html",
-  styleUrls: ["./post-list.component.css"]
+  selector: 'app-my-profile',
+  templateUrl: './my-profile.component.html',
+  styleUrls: ['./my-profile.component.css']
 })
-export class PostListComponent implements OnInit, OnDestroy {
-  
+export class MyProfileComponent implements OnInit {
+
   posts: Post[] = [];
   isLoading = false;
   totalPosts = 0;
-  postsPerPage = 2;
+  postsPerPage = 6;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  pageSizeOptions = [1, 6, 8, 10];
   userIsAuthenticated = false;
   userId: string;
   comment:any;
   userName:any;
   decodedToken:any;
+  fullName:any;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
 
@@ -40,9 +42,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     let token = localStorage.getItem("token");
    if(token!=null && token !='' && token !=undefined){
     this.decodedToken = helper.decodeToken(token);
-    let nameMatch = this.decodedToken.email.match(/^([^@]*)@/);
-    this.userName = nameMatch ? nameMatch[1] : null;
-    console.log(this.decodedToken);
+    this.fullName=this.decodedToken.fullName;
       }
     this.isLoading = true;
     this.postsService.getPosts(this.postsPerPage, this.currentPage);
@@ -52,7 +52,15 @@ export class PostListComponent implements OnInit, OnDestroy {
       .subscribe((postData: { posts: any; postCount: number }) => {
         this.isLoading = false;
         this.totalPosts = postData.postCount;
-        this.posts = postData.posts;
+       // this.posts = postData.posts;
+        let myPost=[];
+        for(var i=0;i<postData.posts.length-1;i++){
+          if(postData.posts[i].creator == this.userId){
+            myPost.push(postData.posts[i]);
+          }
+        }
+        this.posts=myPost;
+        console.log(this.userId);
       });
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
@@ -94,4 +102,5 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.postsSub.unsubscribe();
     this.authStatusSub.unsubscribe();
   }
+
 }

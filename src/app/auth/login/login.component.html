@@ -6,13 +6,16 @@
             <div class="col-sm-4 p-4 my-3 ml-auto mr-auto border">
                 <form [formGroup]="form" (submit)="onLogin()" autocomplete="false">
                     <mat-form-field>
-                        <input matInput type="email" formControlName="email" placeholder="E-Mail">
-                        <mat-error *ngIf="form.get('email').invalid">Please enter a valid email.</mat-error>
+                        <input matInput type="text" formControlName="userName" placeholder="User Name">
+                        <mat-error *ngIf="form.get('userName').invalid">Please enter User Name</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput type="password" formControlName="password" placeholder="Password">
                         <mat-error *ngIf="form.get('password').invalid">Please enter a valid password.</mat-error>
                     </mat-form-field>
+                    <div class="captchaStyle">
+                        <re-captcha (resolved)="resolved($event)" siteKey="6LcQGOUUAAAAAKKYlmquk7vIPBJQcvtwOf0t5gtt"></re-captcha>
+                    </div>
                     <button class="btn btn-primary text-center" *ngIf="!isLoading">Login</button>
                 </form>
 
