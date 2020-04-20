@@ -1,27 +1,34 @@
 <div class="container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <section class="my-col" *ngIf="!isLoading">
-        <h2 class="text-center p-3">Login</h2>
+    <section *ngIf="!isLoading">
         <div class="row">
             <div class="col-sm-4 p-4 my-3 ml-auto mr-auto border">
+                <h2 class="text-center p-3">Login</h2>
                 <form [formGroup]="form" (submit)="onLogin()" autocomplete="false">
-                    <mat-form-field>
-                        <input matInput type="text" formControlName="userName" placeholder="User Name">
-                        <mat-error *ngIf="form.get('userName').invalid">Please enter User Name</mat-error>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput type="password" formControlName="password" placeholder="Password">
-                        <mat-error *ngIf="form.get('password').invalid">Please enter a valid password.</mat-error>
-                    </mat-form-field>
+                    <div class="form-group mb-0">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="userName" placeholder="User Name">
+                            <mat-error *ngIf="form.get('userName').invalid">Please enter User Name</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group mb-0">
+                        <mat-form-field>
+                            <input matInput type="password" formControlName="password" placeholder="Password">
+                            <mat-error *ngIf="form.get('password').invalid">Please enter a valid password.</mat-error>
+                        </mat-form-field>
+                    </div>
                     <div class="captchaStyle">
                         <re-captcha (resolved)="resolved($event)" siteKey="6LcQGOUUAAAAAKKYlmquk7vIPBJQcvtwOf0t5gtt"></re-captcha>
                     </div>
-                    <button class="btn btn-primary text-center" *ngIf="!isLoading">Login</button>
+                    <div class="my-3 form-group mb-0 text-center">
+                        <button class="btn btn-primary" *ngIf="!isLoading">Login</button>
+                    </div>
                 </form>
-
-                <div class="p-4 my-3 text-center border">
-                    Don't have an account? <a href="auth/signup">Sign up</a>
-                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 p-4 my-3 text-center border mx-auto">
+                Don't have an account? <a href="auth/signup">Sign up</a>
             </div>
         </div>
     </section>

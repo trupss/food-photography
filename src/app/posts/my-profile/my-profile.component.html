@@ -1,59 +1,66 @@
 <div class="container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <section class="my-col">
+    <section>
         <div class="row">
-            <div class="col-sm-2 p-2 my-3 ml-3 mr-3 border">
+            <div class="col-sm-3 pt-5 ml-auto mr-2">
                 <div class="">
                     <img src="../../../assets/img_avatar1.png" class="img-thumbnail mx-auto d-block img-fluid" alt="" />
                 </div>
                 <div>
                     <hr>
-                    <h3>{{fullName}}</h3>
-                    <p> Your Posts : <span>{{posts.length}}</span></p>
-                    <div class="text-center">
-                        <a href="editpost.html" class="btn btn-primary">Add New Post</a>
-                    </div>
+                    <h4>{{fullName}}</h4>
+                    <p class="card-text"> Your Posts : <span>{{posts.length}}</span></p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
             </div>
             <p class="info-text mat-body-1 text-center" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>
-            <div class="col-sm-8 p-2 my-3 border" *ngIf="posts.length > 0 && !isLoading">
+            <div class="col-sm-8 p-2 ml-0 mr-auto" *ngIf="posts.length > 0 && !isLoading">
                 <div class="row">
-                    <div class="col-sm-5 p-3 my-3 ml-auto mr-3 border" *ngFor="let post of posts">
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 class="card-title">{{ post.title }}</h6>
-                                <p class="card-text">{{ post.content }}</p>
+                    <div *ngFor="let post of posts">
+                        <div class="col-sm-12">
+                            <div class="card mb-3 border border-info">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <img class="card-img-bottom" [src]="post.imagePath" alt="Card image" style="width:100%; height:150px;">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ post.title }}</h5>
+                                            <p class="card-text">{{ post.content }}</p>
+                                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-0">
+                                <div class="clearfix p-2">
+                                    <span class="float-left"><i class="fa fa-comments"></i>{{post.comments.length}}</span>
+                                    <span class="float-right" *ngIf="userIsAuthenticated && userId === post.creator">
+                                        <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
+                                        <a mat-button color="warn" (click)="onDelete(post.id)">DELETE</a>
+                                    </span>
+                                </div>
+                                <hr class="my-0">
+                                <div *ngIf="post.comments.length>0">
+                                    <div *ngFor="let comment of post.comments" class="p-2 border border-top-0 border-left-0 border-right-0">
+                                        <p class="mb-0"><i class="fa fa-user-circle"></i><b class="text-info"> Trupti11</b></p>
+                                        <div class="clearfix px-4">
+                                            <span class="float-left">{{comment.message}}</span>
+                                            <span class="float-right"><small class="text-muted">{{ comment.date}}</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-2" *ngIf="userIsAuthenticated">
+                                    <input type="text" class="form-control" name="comment" [(ngModel)]="comment" placeholder="addComment">
+                                    <div class="text-right">
+                                        <button mat-button color="accent" (click)="onComment(post.id)">POST</button>
+                                    </div>
+                                </div>
                             </div>
-                            <img class="card-img-bottom" [src]="post.imagePath" alt="Card image" style="width:100%; height:150px;">
-                        </div>
-                        <div>
-                            <span><i class="fa fa-comments"></i>{{post.comments.length}}</span>
-                        </div>
-                        <div *ngIf="userIsAuthenticated && userId === post.creator">
-                            <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
-                            <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
-                        </div>
-                        <hr>
-                        <div *ngIf="post.comments.length>0">
-                            <div *ngFor="let comment of post.comments" class="p-2 border border-bottom-0">
-                                <p>{{ comment.message}}</p>
-                                <p>{{ comment.commentBy}} :{{ comment.date}} </p>
-                            </div>
-                        </div>
-                        <div class="p-2 border" *ngIf="userIsAuthenticated">
-                            <input type="text" class="form-control" name="comment" [(ngModel)]="comment" placeholder="addComment">
-                            <button mat-button color="primary" (click)="onComment(post.id)">Post</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="my-col">
-
-    </section>
-
     <mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)" *ngIf="posts.length > 0"></mat-paginator>
-
-
 </div>

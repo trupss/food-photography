@@ -1,33 +1,25 @@
-<header>
-    <div class="container-fluid border">
-        <div class="row">
-            <nav class="container navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand my-col" routerLink="/">
-                    <a routerLink="/"> <img src="assets/logo.png"></a>
-                </a>
+<header class="border border-top-0 border-left-0 border-right-0 border-warning">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a routerLink="/" class="navbar-brand">
+            <img src="assets/logo.png" class="img-logo" alt="Cake Bakery">
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <ul>
-                    <li *ngIf="userIsAuthenticated">
-                        <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>
-                    </li>
-                    <li *ngIf="userIsAuthenticated">
-                        <a mat-button routerLink="/myprofile" routerLinkActive="mat-accent">My Profile</a>
-                    </li>
-                    <li *ngIf="!userIsAuthenticated">
-                        <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent">Login</a>
-                    </li>
-                    <li *ngIf="!userIsAuthenticated">
-                        <a mat-button routerLink="/auth/signup" routerLinkActive="mat-accent">Signup</a>
-                    </li>
-                </ul>
-                <span class="spacer"></span>
-                <ul>
-                    <li *ngIf="userIsAuthenticated">
-                        <button mat-button (click)="onLogout()">Logout</button>
-                    </li>
-                </ul>
-
-            </nav>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ml-auto" *ngIf="userIsAuthenticated">
+                <a mat-button routerLink="/" class="nav-item nav-link" routerLinkActive="mat-accent">Home</a>
+                <a mat-button routerLink="/create" class="nav-item nav-link" routerLinkActive="mat-accent">Add Post</a>
+                <a mat-button routerLink="/myprofile" class="nav-item nav-link" routerLinkActive="mat-accent">View Profile</a>
+                <a mat-button routerLink="/" class="nav-item nav-link" routerLinkActive="mat-accent">Change Password</a>
+                <a mat-button class="nav-item nav-link" routerLinkActive="mat-accent" (click)="onLogout()"><i class="fa fa-power-off"></i></a>
+            </div>
+            <div class="navbar-nav ml-auto" *ngIf="!userIsAuthenticated">
+                <a mat-button routerLink="/" class="nav-item nav-link" routerLinkActive="mat-accent">Home</a>
+                <a mat-button routerLink="/auth/login" class="nav-item nav-link" routerLinkActive="mat-accent">Login</a>
+                <a mat-button routerLink="/auth/signup" class="nav-item nav-link" routerLinkActive="mat-accent">Signup</a>
+            </div>
         </div>
-    </div>
+    </nav>
 </header>

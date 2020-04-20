@@ -1,17 +1,17 @@
 <div class="container">
-    <h2 class="text-center p-3">Add / Edit Post</h2>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <section class="my-col" *ngIf="!isLoading">
-        <div class="row text-center">
-            <div class="col-sm-4 p-4 my-3 border">
+    <section *ngIf="!isLoading">
+        <h2 class="text-center p-3">Add / Edit Post</h2>
+        <div class="row">
+            <div class="col-sm-4 p-4 ml-auto mr-2 border border-danger">
                 <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
-                    <div class="form-group">
+                    <div class="form-group mb-0">
                         <mat-form-field>
-                            <input matInput type="text" formControlName="title" placeholder="Post Title">
+                            <input matInput type="text" formControlName="title" autocomplete="off" placeholder="Post Title">
                             <mat-error *ngIf="form.get('title').invalid">Please enter a post title.</mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-0">
                         <mat-form-field>
                             <textarea matInput rows="4" formControlName="content" placeholder="Post Content"></textarea>
                             <mat-error *ngIf="form.get('content').invalid">Please enter a post title.</mat-error>
@@ -28,14 +28,15 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-4 p-4 my-3 ml-3 mr-auto border" *ngIf="form.valid">
-                <div class="card">
-                    <h4 class="card-title">Post Preview</h4>
+            <div class="col-sm-4 ml-0 mr-auto border border-success">
+                <h6 class="text-center pt-3">Post Preview</h6>
+                <hr class="mb-1 mt-0">
+                <div class="card my-3">
                     <div class="card-body">
                         <h4 class="card-title">{{form.value.title}}</h4>
                         <p class="card-text">{{form.value.content}}</p>
                     </div>
-                    <img class="card-img-bottom" [src]="imagePreview" alt="Card image" style="width:100%" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+                    <img class="card-img-bottom" [src]="imagePreview" alt="Card image" style="width:100%; height:350px;" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
                 </div>
             </div>
         </div>
