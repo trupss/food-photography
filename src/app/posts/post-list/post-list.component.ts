@@ -40,8 +40,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     let token = localStorage.getItem("token");
    if(token!=null && token !='' && token !=undefined){
     this.decodedToken = helper.decodeToken(token);
-    let nameMatch = this.decodedToken.email.match(/^([^@]*)@/);
-    this.userName = nameMatch ? nameMatch[1] : null;
+    this.userName = this.decodedToken.fullName;
     console.log(this.decodedToken);
       }
     this.isLoading = true;
@@ -89,6 +88,19 @@ export class PostListComponent implements OnInit, OnDestroy {
     });
   }
   }
+
+  omit_number(e) {
+    var allowedCode = [8, 13, 32, 44, 45, 46, 95,187];
+    var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+        ((e.which) ? e.which : 0));
+     if (charCode > 31 && (charCode < 64 || charCode > 90) &&
+      (charCode < 97 || charCode > 122) &&
+      (charCode < 48 || charCode > 57) &&
+      (allowedCode.indexOf(charCode) == -1)) {
+      e.preventDefault();  
+      return false;
+     }
+}
 
   ngOnDestroy() {
     this.postsSub.unsubscribe();

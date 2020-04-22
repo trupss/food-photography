@@ -20,15 +20,16 @@ export class MyProfileComponent implements OnInit {
   posts: Post[] = [];
   isLoading = false;
   totalPosts = 0;
-  postsPerPage = 6;
+  postsPerPage = 8;
   currentPage = 1;
-  pageSizeOptions = [1, 6, 8, 10];
+  pageSizeOptions = [1, 10, 11, 12];
   userIsAuthenticated = false;
   userId: string;
   comment:any;
   userName:any;
   decodedToken:any;
   fullName:any;
+  myPosts:any=[];
   private postsSub: Subscription;
   private authStatusSub: Subscription;
 
@@ -52,14 +53,12 @@ export class MyProfileComponent implements OnInit {
       .subscribe((postData: { posts: any; postCount: number }) => {
         this.isLoading = false;
         this.totalPosts = postData.postCount;
-       // this.posts = postData.posts;
-        let myPost=[];
-        for(var i=0;i<postData.posts.length-1;i++){
-          if(postData.posts[i].creator == this.userId){
-            myPost.push(postData.posts[i]);
+        this.posts = postData.posts;
+        for(var i=0;i<this.posts.length;i++){
+          if(this.userId==this.posts[i].creator){
+            this.myPosts.push(this.posts[i]);
           }
         }
-        this.posts=myPost;
         console.log(this.userId);
       });
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -97,6 +96,19 @@ export class MyProfileComponent implements OnInit {
     });
   }
   }
+
+  omit_number(e) {
+    var allowedCode = [8, 13, 32, 44, 45, 46, 95,187];
+    var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+        ((e.which) ? e.which : 0));
+     if (charCode > 31 && (charCode < 64 || charCode > 90) &&
+      (charCode < 97 || charCode > 122) &&
+      (charCode < 48 || charCode > 57) &&
+      (allowedCode.indexOf(charCode) == -1)) {
+      e.preventDefault();  
+      return false;
+     }
+}
 
   ngOnDestroy() {
     this.postsSub.unsubscribe();
