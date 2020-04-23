@@ -1,6 +1,14 @@
-# MeanCourse
+# Foodography
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+Foodography, is an online food photo sharing platform to share creative recipes. Similar to Instagram, users logging into this application, has a foodography profile. The aim of this application is to
+•	share different kinds of culture based and authentic food
+•	showcase yourself and your home-based food designing skills
+•	market restaurant food items to help create brand
+
+This application is developed using MEAN STACK Technology. It is a privilege-based system, following RBAC architecture. It consists of 
+•	An authenticated User, who can add/edit/delete post created by him/her.
+•	A non-authenticated user, has access to view post only. 
+When you post a photo on Foodography, it will be displayed on your profile. Other users will see your posts in their own feed. Likewise, you'll see posts from other users as well. Commenting feature is enabled only for logged in users.  
 
 ## Development server
 
