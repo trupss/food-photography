@@ -84,6 +84,15 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
+  onlyText(e){
+    var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+    ((e.which) ? e.which : 0));
+    if(!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0)) {
+  e.preventDefault();  
+  return false;
+  }  
+  }
+
   omit_number(e) {
     var allowedCode = [8, 13, 32, 44, 45, 46, 95,187];
     var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :

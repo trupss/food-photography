@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="p-2" *ngIf="userIsAuthenticated">
-                            <input type="text" class="form-control" name="comment" (keypress)="omit_number($event)" [(ngModel)]="comment" placeholder="addComment">
+                            <input type="text" class="form-control" name="comment" (keypress)="onlyText($event)" [(ngModel)]="comment" placeholder="addComment">
                             <div class="text-right">
                                 <button mat-button color="accent" (click)="onComment(post.id)">POST</button>
                             </div>

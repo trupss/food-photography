@@ -44,6 +44,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.login(this.form.value.userName, this.form.value.password,this.form.value.captcha);
   }
 
+  noSpecialCharacters(e) {
+    // var allowedCode = [8, 13, 32, 44, 45, 46, 95,187];
+       var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+           ((e.which) ? e.which : 0));
+           if (charCode < 48 || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || charCode > 122) {
+         e.preventDefault();  
+         return false;
+        }    
+   }
+
   ngOnDestroy() {
     this.authStatusSub.unsubscribe();
   }

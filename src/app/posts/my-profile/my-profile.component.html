@@ -13,11 +13,11 @@
                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
             </div>
-            <p class="info-text mat-body-1 text-center" *ngIf="myPosts.length <= 0 && !isLoading">No posts added yet!</p>
+            <p class="info-text mat-body-1 text-center col-sm-8" *ngIf="myPosts.length <= 0 && !isLoading">No posts added yet!</p>
             <div class="col-sm-8 p-2 ml-0 mr-auto" *ngIf="myPosts.length > 0 && !isLoading">
                 <div class="row">
-                    <div *ngFor="let post of myPosts">
-                        <div class="col-sm-12">
+                    <div>
+                        <div class="col-sm-12" *ngFor="let post of myPosts.slice().reverse()">
                             <div class="card mb-3 border border-info">
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
                                 <div class="p-2" *ngIf="userIsAuthenticated">
-                                    <input type="text" class="form-control" name="comment" (keypress)="omit_number($event)" [(ngModel)]="comment" placeholder="addComment">
+                                    <input type="text" class="form-control" name="comment" (keypress)="onlyText($event)" [(ngModel)]="comment" placeholder="addComment">
                                     <div class="text-right">
                                         <button mat-button color="accent" (click)="onComment(post.id)">POST</button>
                                     </div>

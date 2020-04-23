@@ -7,7 +7,7 @@
                 <form [formGroup]="form" (submit)="onLogin()" autocomplete="false">
                     <div class="form-group mb-0">
                         <mat-form-field>
-                            <input matInput type="text" formControlName="userName" placeholder="User Name">
+                            <input matInput type="text" (keypress)="noSpecialCharacters($event)" formControlName="userName" placeholder="User Name">
                             <mat-error *ngIf="form.get('userName').invalid">Please enter User Name</mat-error>
                         </mat-form-field>
                     </div>

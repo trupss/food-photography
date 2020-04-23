@@ -14,8 +14,10 @@ export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
   form: FormGroup;
   pwdPattern  ='(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[$@$!#^~%*?&,.<>"\'\\;:\{\\\}\\\[\\\]\\\|\\\+\\\-\\\=\\\_\\\)\\\(\\\)\\\`\\\/\\\\\\]])[A-Za-z0-9\d$@].{8,}';
-  userPattern ='^(?=.{6,10}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$';
+  userPattern ='(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[A-Za-z0-9\d$@].{6,}';
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
+  //fullnamePattern ='(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[A-Za-z0-9\d$@].{6,}';
+  //userPattername="^(?=.*\d)(?=.*[A-Z])(?!.*[^a-zA-Z0-9])(.{8,15})$"
   private authStatusSub: Subscription;
 
   constructor(public authService: AuthService,private formBuilder: FormBuilder) {}
@@ -29,18 +31,48 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.form = this.formBuilder.group({
       email:['',[Validators.required, Validators.pattern(this.emailPattern)]],
-      password:['',[Validators.required, Validators.pattern(this.pwdPattern)]],
-      userName:['',[Validators.required, Validators.pattern(this.userPattern)]],
-      fullName:['',[Validators.required]],
+      password:['',[Validators.required,Validators.pattern(this.pwdPattern)]],
+      userName:['',[Validators.required,Validators.pattern(this.userPattern)]],
+      fullName:['',[Validators.required,Validators.minLength(5),Validators.maxLength(60)]],
       confirmPassword: ['',[Validators.required]],
       enableDetails: new FormControl(false),
     },{
       validator: MustMatch('password', 'confirmPassword')
   });
 
-
-
   }
+
+  omit_number(e) {
+    var allowedCode = [8, 13, 32, 44, 45, 46, 95,187];
+    var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+        ((e.which) ? e.which : 0));
+     if (charCode > 31 && (charCode < 64 || charCode > 90) &&
+      (charCode < 97 || charCode > 122) &&
+      (charCode < 48 || charCode > 57) &&
+      (allowedCode.indexOf(charCode) == -1)) {
+      e.preventDefault();  
+      return false;
+     }
+}
+
+noSpecialCharacters(e) {
+ // var allowedCode = [8, 13, 32, 44, 45, 46, 95,187];
+    var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+        ((e.which) ? e.which : 0));
+        if (charCode < 48 || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || charCode > 122) {
+      e.preventDefault();  
+      return false;
+     }    
+}
+
+onlyText(e){
+  var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+  ((e.which) ? e.which : 0));
+  if(!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0)) {
+e.preventDefault();  
+return false;
+}  
+}
 
   saverange(){
     console.log(this.form.value.confirmPassword)

@@ -20,16 +20,16 @@ export class MyProfileComponent implements OnInit {
   posts: Post[] = [];
   isLoading = false;
   totalPosts = 0;
-  postsPerPage = 8;
+  postsPerPage = 5;
   currentPage = 1;
-  pageSizeOptions = [1, 10, 11, 12];
+  pageSizeOptions = [1, 2, 5, 10];
   userIsAuthenticated = false;
   userId: string;
   comment:any;
   userName:any;
   decodedToken:any;
-  fullName:any;
-  myPosts:any=[];
+  myPosts:any=[]
+  fullName:string;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
 
@@ -44,6 +44,8 @@ export class MyProfileComponent implements OnInit {
    if(token!=null && token !='' && token !=undefined){
     this.decodedToken = helper.decodeToken(token);
     this.fullName=this.decodedToken.fullName;
+    this.userName = this.decodedToken.fullName;
+    console.log(this.decodedToken);
       }
     this.isLoading = true;
     this.postsService.getPosts(this.postsPerPage, this.currentPage);
@@ -54,12 +56,13 @@ export class MyProfileComponent implements OnInit {
         this.isLoading = false;
         this.totalPosts = postData.postCount;
         this.posts = postData.posts;
+        this.myPosts=[];
         for(var i=0;i<this.posts.length;i++){
           if(this.userId==this.posts[i].creator){
             this.myPosts.push(this.posts[i]);
           }
         }
-        console.log(this.userId);
+
       });
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
@@ -68,6 +71,15 @@ export class MyProfileComponent implements OnInit {
         this.userIsAuthenticated = isAuthenticated;
         this.userId = this.authService.getUserId();
       });
+  }
+
+  onlyText(e){
+    var charCode = (e.charCode) ? e.charCode : ((e.keyCode) ? e.keyCode :
+    ((e.which) ? e.which : 0));
+    if(!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0)) {
+  e.preventDefault();  
+  return false;
+  }  
   }
 
   onChangedPage(pageData: PageEvent) {

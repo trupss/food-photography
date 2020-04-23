@@ -10,7 +10,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>Full Name</mat-label>
-                                    <input matInput type="text" formControlName="fullName" placeholder="Your Name" autocomplete="off">
+                                    <input matInput type="text" (keypress)="onlyText($event)" formControlName="fullName" placeholder="Your Name" autocomplete="off">
                                     <mat-error *ngIf="form.get('fullName').invalid">Please Enter Full Name</mat-error>
                                 </mat-form-field>
                             </div>
@@ -19,7 +19,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>Email</mat-label>
-                                    <input matInput type="text" formControlName="email" placeholder="E-Mail" autocomplete="off">
+                                    <input matInput type="text" (keypress)="omit_number($event)" formControlName="email" placeholder="E-Mail" autocomplete="off">
                                     <mat-error *ngIf="form.get('email').invalid">Please enter a valid email.</mat-error>
                                 </mat-form-field>
                             </div>
@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>Username</mat-label>
-                                    <input matInput type="text" formControlName="userName" placeholder="Username" autocomplete="off">
+                                    <input matInput type="text" (keypress)="noSpecialCharacters($event)" formControlName="userName" placeholder="Username" autocomplete="off">
                                     <mat-error *ngIf="form.get('userName').invalid">Require Minimum 6 letters including atleast 1 Uppercase and 1 Digit)</mat-error>
                                 </mat-form-field>
                             </div>
